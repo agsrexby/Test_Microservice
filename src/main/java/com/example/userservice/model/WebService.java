@@ -5,6 +5,8 @@ import lombok.Data;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "web_service")
 public class WebService {
     @Id
