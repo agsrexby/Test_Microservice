@@ -1,11 +1,13 @@
 package com.example.userservice.service;
 
 import com.example.userservice.dto.SubscriptionDTO;
+import com.example.userservice.exception.UserNotFoundException;
 import com.example.userservice.model.Subscription;
 import com.example.userservice.model.User;
 import com.example.userservice.model.WebService;
 import com.example.userservice.repository.ServiceRepository;
 import com.example.userservice.repository.SubscriptionRepository;
+import com.example.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class SubscriptionService {
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private SubscriptionRepository subscriptionRepository;
@@ -30,9 +34,11 @@ public class SubscriptionService {
             serviceRepository.save(service);
         }
 
-        // Создаем подписку
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+
         Subscription subscription = new Subscription();
-        subscription.setUser(new User(userId));
+        subscription.setUser(user); // Используем найденного пользователя
         subscription.setService(service);
 
         return subscriptionRepository.save(subscription);

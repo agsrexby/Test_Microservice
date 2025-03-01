@@ -20,7 +20,4 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Subscription> subscriptions;
-    public User(Long id) {
-        this.id = id;
-    }
 }
