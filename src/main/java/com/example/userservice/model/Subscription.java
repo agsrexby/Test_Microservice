@@ -20,27 +20,4 @@ public class Subscription {
     @ManyToOne
     @JoinColumn(name = "app_user")
     private User user;
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public WebService getService() {
-        return service;
-    }
-
-    public void setService(WebService service) {
-        this.service = service;
-    }
-
-    public User getUser() {
-        return user;
-    }
 }
