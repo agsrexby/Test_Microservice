@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # Сервис для PostgreSQL
+  db:
+    image: postgres:17.4
+    environment:
+      POSTGRES_DB: Test_Microservice
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 2605
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Сервис для вашего Spring Boot приложения
+  app:
+    image: userservice
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/Test_Microservice
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 2605
+    ports:
+      - "9090:9090"
+    depends_on:
+      - db
+
+# Том для хранения данных PostgreSQL
+volumes:
+  postgres_data:
